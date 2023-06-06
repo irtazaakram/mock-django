@@ -25,7 +25,7 @@ class SharedMock(mock.MagicMock):
     """
 
     def __init__(self, *args, **kwargs):
-        reserved = kwargs.pop('reserved', [])
+        reserved = kwargs.pop("reserved", [])
 
         # XXX: we cannot bind to self until after the mock is initialized
         super(SharedMock, self).__init__(*args, **kwargs)
@@ -36,8 +36,8 @@ class SharedMock(mock.MagicMock):
         self.__reserved = reserved
 
     def _get_child_mock(self, **kwargs):
-        name = kwargs.get('name', '')
-        if (name[:2] == name[-2:] == '__') or name in self.__reserved:
+        name = kwargs.get("name", "")
+        if (name[:2] == name[-2:] == "__") or name in self.__reserved:
             return super(SharedMock, self)._get_child_mock(**kwargs)
         return self
 
@@ -70,8 +70,12 @@ class SharedMock(mock.MagicMock):
                 not_found.append(kall)
         if not_found:
             if self.__parent.mock_calls:
-                message = '%r not all found in call list, %d other(s) were:\n%r' % (not_found, len(self.__parent.mock_calls), self.__parent.mock_calls)
+                message = "%r not all found in call list, %d other(s) were:\n%r" % (
+                    not_found,
+                    len(self.__parent.mock_calls),
+                    self.__parent.mock_calls,
+                )
             else:
-                message = 'no calls were found'
+                message = "no calls were found"
 
             raise AssertionError(message)

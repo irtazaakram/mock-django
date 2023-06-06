@@ -1,5 +1,7 @@
 from django.dispatch import Signal
+
 from mock_django.signals import mock_signal_receiver
+
 try:
     # Python 2
     from unittest2 import TestCase

@@ -15,10 +15,7 @@ except ImportError:
 import django
 from django.contrib.auth.models import AnonymousUser
 
-from mock import Mock
-
-from mock_django.http import MockHttpRequest
-from mock_django.http import WsgiHttpRequest
+from mock_django.http import MockHttpRequest, WsgiHttpRequest
 
 
 class WsgiHttpRequestTest(TestCase):
@@ -34,14 +31,16 @@ class WsgiHttpRequestTest(TestCase):
     @skipIf(django.VERSION >= (1, 9), "MergeDict and REQUEST removed in Django 1.9")
     def test__get_request(self):
         from django.utils.datastructures import MergeDict
+
         wsgi_r = WsgiHttpRequest()
         expected_items = MergeDict({}, {}).items()
 
         wsgi_r.GET = {}
         wsgi_r.POST = {}
 
-        self.assertListEqual(sorted(expected_items),
-                             sorted(wsgi_r._get_request().items()))
+        self.assertListEqual(
+            sorted(expected_items), sorted(wsgi_r._get_request().items())
+        )
 
     def test_REQUEST_property(self):
         self.assertTrue(isinstance(WsgiHttpRequest.REQUEST, property))
@@ -56,7 +55,7 @@ class WsgiHttpRequestTest(TestCase):
     def test__set_raw_post_data(self):
         wsgi_r = WsgiHttpRequest()
 
-        wsgi_r._set_raw_post_data('')
+        wsgi_r._set_raw_post_data("")
 
         self.assertEqual({}, wsgi_r.POST)
         self.assertEqual(urlencode({}), wsgi_r._raw_post_data)
@@ -69,15 +68,15 @@ class MockHttpRequestTest(TestCase):
     def test_call(self):
         result = MockHttpRequest()
         meta = {
-            'REMOTE_ADDR': '127.0.0.1',
-            'SERVER_PORT': '8000',
-            'HTTP_REFERER': '',
-            'SERVER_NAME': 'testserver',
+            "REMOTE_ADDR": "127.0.0.1",
+            "SERVER_PORT": "8000",
+            "HTTP_REFERER": "",
+            "SERVER_NAME": "testserver",
         }
 
         self.assertTrue(isinstance(result, WsgiHttpRequest))
-        self.assertEqual('/', result.path)
-        self.assertEqual('GET', result.method)
+        self.assertEqual("/", result.path)
+        self.assertEqual("GET", result.method)
         self.assertEqual(meta, result.META)
         self.assertEqual({}, result.GET)
         self.assertEqual({}, result.POST)

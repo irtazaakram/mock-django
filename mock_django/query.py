@@ -8,14 +8,26 @@ mock_django.query
 import copy
 
 import mock
+
 from .shared import SharedMock
 
-__all__ = ('QuerySetMock',)
+__all__ = ("QuerySetMock",)
 
-QUERYSET_RETURNING_METHODS = ['filter', 'exclude', 'order_by', 'reverse',
-                              'distinct', 'none', 'all', 'select_related',
-                              'prefetch_related', 'defer', 'only', 'using',
-                              'select_for_update']
+QUERYSET_RETURNING_METHODS = [
+    "filter",
+    "exclude",
+    "order_by",
+    "reverse",
+    "distinct",
+    "none",
+    "all",
+    "select_related",
+    "prefetch_related",
+    "defer",
+    "only",
+    "using",
+    "select_for_update",
+]
 
 
 def QuerySetMock(model, *return_value):
@@ -46,11 +58,13 @@ def QuerySetMock(model, *return_value):
                 return results[0]
             except IndexError:
                 raise model.DoesNotExist
+
         return _get
 
     def make_qs_returning_method(self):
         def _qs_returning_method(*a, **k):
             return copy.deepcopy(self)
+
         return _qs_returning_method
 
     def make_getitem(self):
@@ -61,6 +75,7 @@ def QuerySetMock(model, *return_value):
             else:
                 return list(self)[k]
             return self
+
         return _getitem
 
     def make_iterator(self):
@@ -68,10 +83,11 @@ def QuerySetMock(model, *return_value):
             if len(return_value) == 1 and isinstance(return_value[0], Exception):
                 raise return_value[0]
 
-            start = getattr(self, '__start', None)
-            stop = getattr(self, '__stop', None)
+            start = getattr(self, "__start", None)
+            stop = getattr(self, "__stop", None)
             for x in return_value[start:stop]:
                 yield x
+
         return _iterator
 
     actual_model = model
@@ -80,7 +96,7 @@ def QuerySetMock(model, *return_value):
     else:
         model = mock.MagicMock()
 
-    m = SharedMock(reserved=['count', 'exists'] + QUERYSET_RETURNING_METHODS)
+    m = SharedMock(reserved=["count", "exists"] + QUERYSET_RETURNING_METHODS)
     m.__start = None
     m.__stop = None
     m.__iter__.side_effect = lambda: iter(m.iterator())

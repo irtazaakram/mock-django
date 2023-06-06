@@ -7,11 +7,11 @@ mock_django.managers
 """
 
 import mock
+
 from .query import QuerySetMock
 from .shared import SharedMock
 
-
-__all__ = ('ManagerMock',)
+__all__ = ("ManagerMock",)
 
 
 def ManagerMock(manager, *return_value):
@@ -31,9 +31,10 @@ def ManagerMock(manager, *return_value):
     def make_get_query_set(self, model):
         def _get(*a, **k):
             return QuerySetMock(model, *return_value)
+
         return _get
 
-    actual_model = getattr(manager, 'model', None)
+    actual_model = getattr(manager, "model", None)
     if actual_model:
         model = mock.MagicMock(spec=actual_model())
     else:

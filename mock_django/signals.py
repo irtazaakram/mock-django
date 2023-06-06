@@ -6,6 +6,7 @@ mock_django.signals
 :license: Apache License 2.0, see LICENSE for more details.
 """
 import contextlib
+
 import mock
 
 
@@ -27,6 +28,7 @@ def mock_signal_receiver(signal, wraps=None, **kwargs):
     >>>     assert receiver.call_count = 1
     """
     if wraps is None:
+
         def wraps(*args, **kwrags):
             return None
 

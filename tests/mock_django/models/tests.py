@@ -1,5 +1,7 @@
 from mock import MagicMock
+
 from mock_django.models import ModelMock
+
 try:
     # Python 2
     from unittest2 import TestCase
@@ -9,20 +11,20 @@ except ImportError:
 
 
 class Model(object):
-    id = '1'
-    pk = '2'
+    id = "1"
+    pk = "2"
 
     def foo(self):
         pass
 
     def bar(self):
-        return 'bar'
+        return "bar"
 
 
 class ModelMockTestCase(TestCase):
     def test_pk_alias(self):
         mock = ModelMock(Model)
-        self.assertEquals(mock.id, mock.pk)
+        self.assertEqual(mock.id, mock.pk)
 
     def test_only_model_attrs_exist(self):
         """
@@ -36,7 +38,7 @@ class ModelMockTestCase(TestCase):
         ModelMock members are Mocks, not the actual model members.
         """
         mock = ModelMock(Model)
-        self.assertNotEquals(mock.bar(), 'bar')
+        self.assertNotEqual(mock.bar(), "bar")
         self.assertIsInstance(mock, MagicMock)
 
     def test_attrs_are_not_identical(self):

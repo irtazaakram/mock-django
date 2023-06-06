@@ -2,6 +2,7 @@
 
 import django
 from django.conf import settings
+
 # collector import is required otherwise setuptools errors
 from nose.core import run, collector
 
@@ -24,5 +25,5 @@ except AttributeError:
     pass
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     run()

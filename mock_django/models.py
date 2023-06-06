@@ -8,7 +8,7 @@ mock_django.models
 
 import mock
 
-__all__ = ('ModelMock',)
+__all__ = ("ModelMock",)
 
 
 # TODO: make foreignkey_id == foreignkey.id
@@ -21,8 +21,8 @@ class _ModelMock(mock.MagicMock):
         self._state.db = None
 
     def _get_child_mock(self, **kwargs):
-        name = kwargs.get('name', '')
-        if name == 'pk':
+        name = kwargs.get("name", "")
+        if name == "pk":
             return self.id
         return super(_ModelMock, self)._get_child_mock(**kwargs)
 
