@@ -11,8 +11,8 @@ except ImportError:
 
 setup(
     name='mock-django',
-    version='0.6.10',
-    description='',
+    version="0.7.0",
+    description="A simple library for mocking certain Django behavior, such as the ORM.",
     license='Apache License 2.0',
     author='David Cramer',
     author_email='dcramer@gmail.com',
